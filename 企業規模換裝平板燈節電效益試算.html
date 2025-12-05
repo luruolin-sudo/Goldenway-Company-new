@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>企業規模效益試算</title>
+  <style>
+    /* 1. 基礎重置 */
+    body { margin: 0; padding: 0; background: transparent; font-family: "Microsoft JhengHei", Arial, sans-serif; }
+    
+    /* 2. 容器與卡片 */
+    .calc-card {
+      background-color: #fff;
+      border-radius: 24px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+      border: 1px solid #f1f5f9;
+      overflow: hidden;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    /* 3. 標題區 */
+    .card-header { background-color: #f8fafc; padding: 24px; border-bottom: 1px solid #f1f5f9; }
+    .header-title { font-size: 20px; font-weight: bold; color: #1e293b; margin: 0 0 8px 0; display: flex; align-items: center; gap: 8px; }
+    .icon-calc { color: #059669; }
+    .header-desc { color: #64748b; margin: 0; font-size: 14px; }
+
+    /* 4. 內容區 */
+    .card-body { padding: 32px; }
+
+    /* 5. 滑桿控制 */
+    .control-group { margin-bottom: 32px; }
+    .qty-label { display: block; font-size: 14px; font-weight: 500; color: #334155; margin-bottom: 12px; }
+    .highlight-qty { color: #059669; font-weight: bold; font-size: 24px; margin-left: 8px; }
+    
+    input[type=range] { -webkit-appearance: none; width: 100%; height: 12px; background: #e2e8f0; border-radius: 6px; outline: none; cursor: pointer; }
+    input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 24px; height: 24px; background: #059669; border-radius: 50%; cursor: pointer; border: 2px solid #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+    
+    .range-marks { display: flex; justify-content: space-between; margin-top: 8px; color: #94a3b8; font-size: 12px; }
+
+    /* 6. 結果顯示區 (黑底) */
+    .result-box { background-color: #0f172a; border-radius: 16px; padding: 32px; text-align: center; position: relative; overflow: hidden; color: #fff; margin-bottom: 24px; }
+    .result-content { position: relative; z-index: 10; }
+    .result-subtitle { color: #94a3b8; text-transform: uppercase; letter-spacing: 2px; font-size: 12px; font-weight: 600; margin: 0 0 8px 0; }
+    .result-amount { font-size: 48px; font-weight: 900; color: #fff; margin-bottom: 16px; line-height: 1.1; }
+    
+    /* 新增樣式：修正後的綠色說明文字 */
+    .result-desc-green { color: #34d399; font-weight: 500; font-size: 18px; margin: 0 0 8px 0; }
+    .result-desc-small { color: #64748b; font-size: 13px; margin: 0; opacity: 0.8; }
+    
+    .bg-shimmer { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.1), transparent); z-index: 1; }
+
+    /* 7. 採購建議 */
+    .suggestion-box { background-color: #ecfdf5; border: 1px solid #d1fae5; border-radius: 12px; padding: 16px; display: flex; align-items: flex-start; gap: 12px; }
+    .icon-check { color: #059669; flex-shrink: 0; margin-top: 2px; }
+    .sug-title { color: #064e3b; font-weight: bold; margin: 0 0 4px 0; font-size: 16px; }
+    .sug-desc { color: #047857; font-size: 14px; line-height: 1.5; margin: 0; }
+    .green-text { color: #059669; }
+    .highlight-underline { text-decoration: underline; text-decoration-color: #10b981; text-decoration-thickness: 2px; text-underline-offset: 2px; font-weight: bold; }
+
+    /* RWD */
+    @media (max-width: 768px) {
+      .result-amount { font-size: 36px; }
+      .card-body { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="calc-card">
+    <div class="card-header">
+      <h2 class="header-title">
+        <svg class="icon-calc" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>
+        企業規模效益試算
+      </h2>
+      <p class="header-desc">拖曳下方滑桿，我們幫您計算換裝節能燈具 5年可以省下多少電費</p>
+    </div>
+
+    <div class="card-body">
+      <div class="control-group">
+        <label class="qty-label" for="gw-lamp-range">
+          預計更換燈具數量: <span id="gw-qty-display" class="highlight-qty">50</span> 盞
+        </label>
+        <input type="range" id="gw-lamp-range" min="1" max="200" step="1" value="50">
+        <div class="range-marks">
+          <span>1盞</span>
+          <span>100盞</span>
+          <span>200盞</span>
+        </div>
+      </div>
+
+      <div class="result-box">
+        <div class="result-content">
+          <p class="result-subtitle">估算 5年 累積省下的電費總額可達</p>
+          <div class="result-amount">NTD <span id="gw-total-savings">56,250</span></div>
+          
+          <p class="result-desc-green">
+             單盞 5 年省 $1,125 × <span id="gw-qty-text">50</span> 盞
+          </p>
+          <p class="result-desc-small">
+             ( 計算基準：年用 3,000 小時 × $5/度 × 5 年 )
+          </p>
+        </div>
+        <div class="bg-shimmer"></div>
+      </div>
+
+      <div class="suggestion-box">
+        <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
+        <div class="suggestion-text">
+          <h4 class="sug-title">採購建議</h4>
+          <p class="sug-desc">
+            若您更換 <span id="gw-qty-sug">50</span> 盞燈，省下的 <strong class="green-text">NTD <span id="gw-savings-sug">56,250</span></strong> 元電費，通常已經超過了購買這批燈具的成本。這意味著您現在是<span class="highlight-underline">免費升級</span>全新的照明設備。
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      var rangeInput = document.getElementById('gw-lamp-range');
+      var qtyDisplay = document.getElementById('gw-qty-display');
+      var qtyText = document.getElementById('gw-qty-text');
+      var qtySug = document.getElementById('gw-qty-sug');
+      var totalSavingsDisplay = document.getElementById('gw-total-savings');
+      var savingsSugDisplay = document.getElementById('gw-savings-sug');
+      var SAVING_PER_LAMP = 1125;
+
+      function updateCalculator() {
+        var quantity = parseInt(rangeInput.value);
+        var total = quantity * SAVING_PER_LAMP;
+        var formattedTotal = total.toLocaleString();
+
+        qtyDisplay.textContent = quantity;
+        qtyText.textContent = quantity;
+        qtySug.textContent = quantity;
+        totalSavingsDisplay.textContent = formattedTotal;
+        savingsSugDisplay.textContent = formattedTotal;
+      }
+
+      if(rangeInput) {
+        rangeInput.addEventListener('input', updateCalculator);
+      }
+    })();
+  </script>
+</body>
+</html>
