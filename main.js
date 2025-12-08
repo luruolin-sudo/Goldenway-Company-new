@@ -1,13 +1,12 @@
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js";
 import { GLTFLoader } from "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/GLTFLoader.js";
 
-// ✅ 容器
 const container = document.getElementById("lamp-3d");
 
-// ✅ 場景
+// ✅ Scene
 const scene = new THREE.Scene();
 
-// ✅ 相機
+// ✅ Camera
 const camera = new THREE.PerspectiveCamera(
   45,
   container.clientWidth / container.clientHeight,
@@ -25,27 +24,31 @@ renderer.setSize(container.clientWidth, container.clientHeight);
 renderer.setPixelRatio(window.devicePixelRatio);
 container.appendChild(renderer.domElement);
 
-// ✅ 打光（展示型）
+// ✅ Light
 scene.add(new THREE.AmbientLight(0xffffff, 0.7));
 
-const keyLight = new THREE.DirectionalLight(0xffffff, 1);
-keyLight.position.set(5, 10, 5);
-scene.add(keyLight);
+const light = new THREE.DirectionalLight(0xffffff, 1);
+light.position.set(5, 10, 5);
+scene.add(light);
 
-// ✅ 載入測試 GLB
+// ✅ Load local test model (✅ 不會被擋)
 const loader = new GLTFLoader();
 let model = null;
 
 loader.load(
-  "https://threejs.org/examples/models/gltf/DamagedHelmet/glTF-Binary/DamagedHelmet.glb",
+  "./model/Duck.glb",
   (gltf) => {
     model = gltf.scene;
-    model.scale.set(2, 2, 2);
+    model.scale.set(0.02, 0.02, 0.02);
     scene.add(model);
+  },
+  undefined,
+  (error) => {
+    console.error("GLB 載入失敗", error);
   }
 );
 
-// ✅ 動畫（自動 360°）
+// ✅ Animate
 function animate() {
   if (model) {
     model.rotation.y += 0.005;
@@ -53,5 +56,4 @@ function animate() {
   renderer.render(scene, camera);
   requestAnimationFrame(animate);
 }
-
 animate();
