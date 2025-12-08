@@ -31,7 +31,7 @@ scene.add(light);
 
 // 載入模型
 const loader = new THREE.GLTFLoader();
-loader.load("TEST.glb", (gltf)=>{
+loader.load("model.glb", (gltf)=>{
   scene.add(gltf.scene);
 });
 
@@ -48,4 +48,3 @@ animate();
 
 </body>
 </html>
-
