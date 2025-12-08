@@ -1,4 +1,5 @@
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js";
+import { GLTFLoader } from "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/GLTFLoader.js";
 
 // ✅ 取得容器
 const container = document.getElementById("lamp-3d");
@@ -31,19 +32,26 @@ const light = new THREE.DirectionalLight(0xffffff, 1);
 light.position.set(5, 10, 5);
 scene.add(light);
 
-// ✅ 測試用立方體（之後會換成燈具）
-const geometry = new THREE.BoxGeometry(1.5, 0.4, 1.5);
-const material = new THREE.MeshStandardMaterial({
-  color: 0x22c55e,
-  roughness: 0.4,
-  metalness: 0.2
-});
-const cube = new THREE.Mesh(geometry, material);
-scene.add(cube);
+// ✅ 匯入 GLB 模型（替換立方體）
+let model;
+const loader = new GLTFLoader();
+loader.load(
+  "./model.glb", // 你的燈具檔案路徑
+  function (gltf) {
+    model = gltf.scene;
+    scene.add(model);
+  },
+  undefined,
+  function (error) {
+    console.error("載入 GLB 模型失敗:", error);
+  }
+);
 
 // ✅ 自動旋轉動畫（360° 核心）
 function animate() {
-  cube.rotation.y += 0.005;
+  if (model) {
+    model.rotation.y += 0.005; // 模型旋轉
+  }
   renderer.render(scene, camera);
   requestAnimationFrame(animate);
 }
