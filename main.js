@@ -1,21 +1,22 @@
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js";
+import { GLTFLoader } from "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/GLTFLoader.js";
 
-// ✅ 取得容器
+// ✅ 容器
 const container = document.getElementById("lamp-3d");
 
-// ✅ 建立場景
+// ✅ 場景
 const scene = new THREE.Scene();
 
-// ✅ 建立相機
+// ✅ 相機
 const camera = new THREE.PerspectiveCamera(
   45,
   container.clientWidth / container.clientHeight,
   0.1,
   1000
 );
-camera.position.set(0, 0, 5);
+camera.position.set(0, 1.5, 4);
 
-// ✅ Renderer（背景透明）
+// ✅ Renderer
 const renderer = new THREE.WebGLRenderer({
   antialias: true,
   alpha: true
@@ -24,26 +25,31 @@ renderer.setSize(container.clientWidth, container.clientHeight);
 renderer.setPixelRatio(window.devicePixelRatio);
 container.appendChild(renderer.domElement);
 
-// ✅ 燈光（產品展示用）
-scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+// ✅ 打光（展示型）
+scene.add(new THREE.AmbientLight(0xffffff, 0.7));
 
-const light = new THREE.DirectionalLight(0xffffff, 1);
-light.position.set(5, 10, 5);
-scene.add(light);
+const keyLight = new THREE.DirectionalLight(0xffffff, 1);
+keyLight.position.set(5, 10, 5);
+scene.add(keyLight);
 
-// ✅ 測試用立方體（之後會換成燈具）
-const geometry = new THREE.BoxGeometry(1.5, 0.4, 1.5);
-const material = new THREE.MeshStandardMaterial({
-  color: 0x22c55e,
-  roughness: 0.4,
-  metalness: 0.2
-});
-const cube = new THREE.Mesh(geometry, material);
-scene.add(cube);
+// ✅ 載入測試 GLB
+const loader = new GLTFLoader();
+let model = null;
 
-// ✅ 自動旋轉動畫（360° 核心）
+loader.load(
+  "https://threejs.org/examples/models/gltf/DamagedHelmet/glTF-Binary/DamagedHelmet.glb",
+  (gltf) => {
+    model = gltf.scene;
+    model.scale.set(2, 2, 2);
+    scene.add(model);
+  }
+);
+
+// ✅ 動畫（自動 360°）
 function animate() {
-  cube.rotation.y += 0.005;
+  if (model) {
+    model.rotation.y += 0.005;
+  }
   renderer.render(scene, camera);
   requestAnimationFrame(animate);
 }
