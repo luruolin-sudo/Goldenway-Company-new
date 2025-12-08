@@ -1,50 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-TW">
 <head>
-<meta charset="utf-8">
-<title>3D Test</title>
-<style>
-  body { margin:0; background:#f5f5f5; }
-</style>
+  <meta charset="UTF-8" />
+  <title>3D Viewer</title>
+  <style>
+    body { margin: 0; overflow: hidden; }
+    canvas { display: block; }
+  </style>
 </head>
 <body>
-
-<script src="https://unpkg.com/three@0.150.1/build/three.min.js"></script>
-<script src="https://unpkg.com/three@0.150.1/examples/js/loaders/GLTFLoader.js"></script>
-<script src="https://unpkg.com/three@0.150.1/examples/js/controls/OrbitControls.js"></script>
-
-<script>
-const scene = new THREE.Scene();
-
-const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
-camera.position.set(2, 2, 3);
-
-const renderer = new THREE.WebGLRenderer({ antialias:true });
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
-
-// 光
-scene.add(new THREE.AmbientLight(0xffffff, 1.2));
-const light = new THREE.DirectionalLight(0xffffff, 1);
-light.position.set(5,5,5);
-scene.add(light);
-
-// 載入模型
-const loader = new THREE.GLTFLoader();
-loader.load("model.glb", (gltf)=>{
-  scene.add(gltf.scene);
-});
-
-// 旋轉控制
-const controls = new THREE.OrbitControls(camera, renderer.domElement);
-
-function animate(){
-  requestAnimationFrame(animate);
-  controls.update();
-  renderer.render(scene, camera);
-}
-animate();
-</script>
-
+  <script type="module" src="./main.js"></script>
 </body>
 </html>
