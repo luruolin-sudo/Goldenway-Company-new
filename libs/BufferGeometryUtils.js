@@ -1,19 +1,15 @@
 import {
-	BufferAttribute,
-	BufferGeometry,
-	Float32BufferAttribute,
-	InstancedBufferAttribute,
-	InterleavedBuffer,
-	InterleavedBufferAttribute,
-	TriangleFanDrawMode,
-	TriangleStripDrawMode,
-	TrianglesDrawMode,
-	Vector3,
-import {
+  BufferAttribute,
   BufferGeometry,
   Float32BufferAttribute,
-  // ...其他
-} from './three.module.js'; // ✅ 指向本地 three.module.js
+  InstancedBufferAttribute,
+  InterleavedBuffer,
+  InterleavedBufferAttribute,
+  TriangleFanDrawMode,
+  TriangleStripDrawMode,
+  TrianglesDrawMode,
+  Vector3
+} from './three.module.js'; // ✅ 正確語法，只有一個 import
 
 function computeMikkTSpaceTangents( geometry, MikkTSpace, negateSign = true ) {
 
