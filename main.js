@@ -56,22 +56,15 @@ gui.addColor(settings, "lightColor").name("燈光顏色").onChange(v => {
 // 載入 GLB 模型
 let model;
 const loader = new GLTFLoader();
-loader.load(
-  "./model/model.glb", // ✅ 路徑正確
-  function (gltf) {
-    model = gltf.scene;
-    scene.add(model);
-  },
-  undefined,
-  function (error) {
-    console.error("載入 GLB 模型失敗:", error);
-  }
-);
+loader.load("./model/model.glb", function (gltf) {
+  model = gltf.scene;
+  scene.add(model);
+});
 
-// 設定與 GUI 面板（放在外面）
+// ✅ 設定與 GUI 面板（只宣告一次）
 const settings = {
   autoRotate: true,
-  rotateSpeed: 0.01 // ✅ 新增旋轉速度
+  rotateSpeed: 0.01
 };
 
 gui.add(settings, "autoRotate").name("自動旋轉");
@@ -82,7 +75,7 @@ function animate() {
   requestAnimationFrame(animate);
 
   if (model && settings.autoRotate) {
-    model.rotation.y += settings.rotateSpeed; // ✅ 使用 GUI 控制的速度
+    model.rotation.y += settings.rotateSpeed;
   }
 
   controls.update();
