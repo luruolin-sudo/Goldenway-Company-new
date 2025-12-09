@@ -23,12 +23,9 @@ scene.add(light);
 // 載入 GLB 模型
 let model;
 const loader = new GLTFLoader();
-loader.load(
-  "./models/model.glb", // ✅ 相對於 index.html
-  function (gltf) {
-    model = gltf.scene;
-    scene.add(model);
-  },
+loader.load("./model/model.glb", function (gltf) {
+  scene.add(gltf.scene);
+});
   undefined,
   function (error) {
     console.error("載入 GLB 模型失敗:", error);
