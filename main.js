@@ -1,8 +1,5 @@
-import * as THREE from
-"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js";
-
-import { GLTFLoader } from
-"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/GLTFLoader.js";
+import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js";
+import { GLTFLoader } from "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/GLTFLoader.js";
 
 // ✅ 場景
 const scene = new THREE.Scene();
@@ -28,16 +25,27 @@ const light = new THREE.DirectionalLight(0xffffff, 1);
 light.position.set(2, 3, 4);
 scene.add(light);
 
-// ✅ 測試幾何（先確定 Three.js 正常）
-const geo = new THREE.BoxGeometry();
-const mat = new THREE.MeshStandardMaterial({ color: 0x00aa88 });
-const cube = new THREE.Mesh(geo, mat);
-scene.add(cube);
+// ✅ 匯入 GLB 模型
+let model;
+const loader = new GLTFLoader();
+loader.load(
+  "./models/model.glb",   // 🔑 路徑相對於 index.html
+  function (gltf) {
+    model = gltf.scene;
+    scene.add(model);
+  },
+  undefined,
+  function (error) {
+    console.error("載入 GLB 模型失敗:", error);
+  }
+);
 
 // ✅ 動畫
 function animate() {
   requestAnimationFrame(animate);
-  cube.rotation.y += 0.01;
+  if (model) {
+    model.rotation.y += 0.01; // 模型旋轉
+  }
   renderer.render(scene, camera);
 }
 animate();
