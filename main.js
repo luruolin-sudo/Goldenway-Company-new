@@ -68,14 +68,25 @@ loader.load(
   }
 );
 
-// 動畫
+// 設定與 GUI 面板（放在外面）
+const settings = {
+  autoRotate: true,
+  rotateSpeed: 0.01 // ✅ 新增旋轉速度
+};
+
+gui.add(settings, "autoRotate").name("自動旋轉");
+gui.add(settings, "rotateSpeed", 0.001, 0.1).name("旋轉速度");
+
+// 動畫函式
 function animate() {
   requestAnimationFrame(animate);
 
-  // 如果想保留自動旋轉，可以加這行
+  if (model && settings.autoRotate) {
+    model.rotation.y += settings.rotateSpeed; // ✅ 使用 GUI 控制的速度
+  }
 
-
-  controls.update(); // ✅ 更新控制器
+  controls.update();
   renderer.render(scene, camera);
 }
+
 animate();
