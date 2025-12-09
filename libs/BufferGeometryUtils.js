@@ -9,7 +9,11 @@ import {
 	TriangleStripDrawMode,
 	TrianglesDrawMode,
 	Vector3,
-} from 'three';
+import {
+  BufferGeometry,
+  Float32BufferAttribute,
+  // ...其他
+} from './three.module.js'; // ✅ 指向本地 three.module.js
 
 function computeMikkTSpaceTangents( geometry, MikkTSpace, negateSign = true ) {
 
