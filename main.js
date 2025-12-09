@@ -73,9 +73,7 @@ function animate() {
   requestAnimationFrame(animate);
 
   // 如果想保留自動旋轉，可以加這行
-  if (model) {
-    model.rotation.y += 0.01;
-  }
+
 
   controls.update(); // ✅ 更新控制器
   renderer.render(scene, camera);
