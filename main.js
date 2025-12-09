@@ -1,5 +1,5 @@
-import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js";
-import { GLTFLoader } from "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/GLTFLoader.js";
+import * as THREE from "./libs/three.module.js";
+import { GLTFLoader } from "./libs/GLTFLoader.js";
 
 // 建立場景
 const scene = new THREE.Scene();
