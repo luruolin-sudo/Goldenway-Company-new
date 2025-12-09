@@ -1,48 +1,43 @@
-import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js";
-import { GLTFLoader } from "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/GLTFLoader.js";
+import * as THREE from
+"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js";
 
-const container = document.getElementById("lamp-3d");
+import { GLTFLoader } from
+"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/GLTFLoader.js";
 
-// Scene
+// ✅ 場景
 const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xffffff);
 
-// Camera
+// ✅ 相機
 const camera = new THREE.PerspectiveCamera(
   45,
-  window.innerWidth / window.innerHeight,
+  1,
   0.1,
-  1000
+  100
 );
-camera.position.set(0, 1.5, 4);
+camera.position.set(0, 1.5, 3);
 
-// Renderer
-const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setPixelRatio(window.devicePixelRatio);
-container.appendChild(renderer.domElement);
+// ✅ Renderer
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(500, 500);
+document.body.appendChild(renderer.domElement);
 
-// Light
-scene.add(new THREE.AmbientLight(0xffffff, 0.8));
+// ✅ 燈光
+scene.add(new THREE.AmbientLight(0xffffff, 1));
 const light = new THREE.DirectionalLight(0xffffff, 1);
-light.position.set(5, 5, 5);
+light.position.set(2, 3, 4);
 scene.add(light);
 
-// 測試模型（鴨子）
-const loader = new GLTFLoader();
-let model = null;
+// ✅ 測試幾何（先確定 Three.js 正常）
+const geo = new THREE.BoxGeometry();
+const mat = new THREE.MeshStandardMaterial({ color: 0x00aa88 });
+const cube = new THREE.Mesh(geo, mat);
+scene.add(cube);
 
-loader.load(
-  "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Duck/glTF-Binary/Duck.glb",
-  (gltf) => {
-    model = gltf.scene;
-    model.scale.set(0.02, 0.02, 0.02);
-    scene.add(model);
-  }
-);
-
+// ✅ 動畫
 function animate() {
-  if (model) model.rotation.y += 0.01;
-  renderer.render(scene, camera);
   requestAnimationFrame(animate);
+  cube.rotation.y += 0.01;
+  renderer.render(scene, camera);
 }
 animate();
