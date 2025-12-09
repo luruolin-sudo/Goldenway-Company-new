@@ -64,7 +64,7 @@ loader.load("./model/model.glb", function (gltf) {
   scene.add(model);
 });
 
-// 動畫函式
+// ✅ 最後才放動畫函式
 function animate() {
   requestAnimationFrame(animate);
 
@@ -76,4 +76,5 @@ function animate() {
   renderer.render(scene, camera);
 }
 
+// 啟動循環
 animate();
