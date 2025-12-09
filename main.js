@@ -1,5 +1,6 @@
 import * as THREE from "./libs/three.module.js";
 import { GLTFLoader } from "./libs/GLTFLoader.js";
+import { OrbitControls } from "./libs/OrbitControls.js"; // ✅ 新增
 
 // 建立場景
 const scene = new THREE.Scene();
@@ -18,6 +19,13 @@ const camera = new THREE.PerspectiveCamera(
   100
 );
 camera.position.set(0, 1.5, 3);
+
+// 建立 OrbitControls（相機 + renderer.domElement）
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;   // 慣性效果
+controls.dampingFactor = 0.05;
+controls.minDistance = 1;        // 最小縮放距離
+controls.maxDistance = 10;       // 最大縮放距離
 
 // 燈光
 scene.add(new THREE.AmbientLight(0xffffff, 1));
@@ -43,9 +51,13 @@ loader.load(
 // 動畫
 function animate() {
   requestAnimationFrame(animate);
+
+  // 如果想保留自動旋轉，可以加這行
   if (model) {
     model.rotation.y += 0.01;
   }
+
+  controls.update(); // ✅ 更新控制器
   renderer.render(scene, camera);
 }
 animate();
