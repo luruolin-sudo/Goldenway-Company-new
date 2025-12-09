@@ -1,6 +1,6 @@
 import * as THREE from "./libs/three.module.js";
 import { GLTFLoader } from "./libs/GLTFLoader.js";
-import { OrbitControls } from "./libs/OrbitControls.js"; // ✅ 新增
+import { OrbitControls } from "./libs/OrbitControls.js";
 
 // 建立場景
 const scene = new THREE.Scene();
@@ -11,7 +11,7 @@ const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(500, 500);
 document.body.appendChild(renderer.domElement);
 
-// 建立相機（使用 renderer 寬高比）
+// 建立相機
 const camera = new THREE.PerspectiveCamera(
   45,
   renderer.domElement.width / renderer.domElement.height,
@@ -20,29 +20,32 @@ const camera = new THREE.PerspectiveCamera(
 );
 camera.position.set(0, 1.5, 3);
 
-// 建立 OrbitControls（相機 + renderer.domElement）
+// OrbitControls
 const controls = new OrbitControls(camera, renderer.domElement);
-controls.enableDamping = true;   // 慣性效果
+controls.enableDamping = true;
 controls.dampingFactor = 0.05;
-controls.minDistance = 1;        // 最小縮放距離
-controls.maxDistance = 10;       // 最大縮放距離
+controls.minDistance = 1;
+controls.maxDistance = 10;
 
 // 燈光
-scene.add(new THREE.AmbientLight(0xffffff, 1));
+const ambientLight = new THREE.AmbientLight(0xffffff, 1);
+scene.add(ambientLight);
 const light = new THREE.DirectionalLight(0xffffff, 1);
 light.position.set(2, 3, 4);
 scene.add(light);
 
-// ✅ 在這裡加 GUI 面板
+// ✅ GUI 面板設定（只宣告一次 settings）
 const gui = new dat.GUI();
 const settings = {
   autoRotate: true,
+  rotateSpeed: 0.01,
   ambientIntensity: 1,
   directionalIntensity: 1,
   lightColor: "#ffffff"
 };
 
 gui.add(settings, "autoRotate").name("自動旋轉");
+gui.add(settings, "rotateSpeed", 0.001, 0.1).name("旋轉速度");
 gui.add(settings, "ambientIntensity", 0, 2).name("環境光強度").onChange(v => {
   ambientLight.intensity = v;
 });
@@ -60,15 +63,6 @@ loader.load("./model/model.glb", function (gltf) {
   model = gltf.scene;
   scene.add(model);
 });
-
-// ✅ 設定與 GUI 面板（只宣告一次）
-const settings = {
-  autoRotate: true,
-  rotateSpeed: 0.01
-};
-
-gui.add(settings, "autoRotate").name("自動旋轉");
-gui.add(settings, "rotateSpeed", 0.001, 0.1).name("旋轉速度");
 
 // 動畫函式
 function animate() {
