@@ -5,14 +5,19 @@ import { GLTFLoader } from "./libs/GLTFLoader.js";
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xffffff);
 
-// 建立相機
-const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
-camera.position.set(0, 1.5, 3);
-
 // 建立 renderer
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(500, 500);
 document.body.appendChild(renderer.domElement);
+
+// 建立相機（使用 renderer 寬高比）
+const camera = new THREE.PerspectiveCamera(
+  45,
+  renderer.domElement.width / renderer.domElement.height,
+  0.1,
+  100
+);
+camera.position.set(0, 1.5, 3);
 
 // 燈光
 scene.add(new THREE.AmbientLight(0xffffff, 1));
@@ -24,7 +29,7 @@ scene.add(light);
 let model;
 const loader = new GLTFLoader();
 loader.load(
-  "./model/model.glb", // ✅ 路徑相對於 index.html
+  "./model/model.glb", // ✅ 路徑正確
   function (gltf) {
     model = gltf.scene;
     scene.add(model);
@@ -43,4 +48,4 @@ function animate() {
   }
   renderer.render(scene, camera);
 }
-animate(); // ✅ 結尾不要多括號
+animate();
