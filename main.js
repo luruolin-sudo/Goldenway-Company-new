@@ -33,6 +33,26 @@ const light = new THREE.DirectionalLight(0xffffff, 1);
 light.position.set(2, 3, 4);
 scene.add(light);
 
+// ✅ 在這裡加 GUI 面板
+const gui = new dat.GUI();
+const settings = {
+  autoRotate: true,
+  ambientIntensity: 1,
+  directionalIntensity: 1,
+  lightColor: "#ffffff"
+};
+
+gui.add(settings, "autoRotate").name("自動旋轉");
+gui.add(settings, "ambientIntensity", 0, 2).name("環境光強度").onChange(v => {
+  ambientLight.intensity = v;
+});
+gui.add(settings, "directionalIntensity", 0, 2).name("方向光強度").onChange(v => {
+  light.intensity = v;
+});
+gui.addColor(settings, "lightColor").name("燈光顏色").onChange(v => {
+  light.color.set(v);
+});
+
 // 載入 GLB 模型
 let model;
 const loader = new GLTFLoader();
