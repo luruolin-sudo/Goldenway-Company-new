@@ -23,9 +23,12 @@ scene.add(light);
 // 載入 GLB 模型
 let model;
 const loader = new GLTFLoader();
-loader.load("./model/model.glb", function (gltf) {
-  scene.add(gltf.scene);
-});
+loader.load(
+  "./model/model.glb", // ✅ 路徑相對於 index.html
+  function (gltf) {
+    model = gltf.scene;
+    scene.add(model);
+  },
   undefined,
   function (error) {
     console.error("載入 GLB 模型失敗:", error);
@@ -40,4 +43,4 @@ function animate() {
   }
   renderer.render(scene, camera);
 }
-animate();
+animate(); // ✅ 結尾不要多括號
