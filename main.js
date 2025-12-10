@@ -1,10 +1,11 @@
 import * as THREE from "./libs/three.module.js";
 import { GLTFLoader } from "./libs/GLTFLoader.js";
 import { OrbitControls } from "./libs/OrbitControls.js";
+import { EXRLoader } from "./libs/EXRLoader.js"; // ✅ 載入 EXRLoader
 
 // 建立場景
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0xffffff);
+scene.background = new THREE.Color(0x000000); // ✅ 黑色背景
 
 // 建立 renderer
 const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -34,7 +35,7 @@ const light = new THREE.DirectionalLight(0xffffff, 1);
 light.position.set(2, 3, 4);
 scene.add(light);
 
-// ✅ GUI 面板設定（只宣告一次 settings）
+// ✅ GUI 面板設定
 const gui = new dat.GUI();
 const settings = {
   autoRotate: true,
@@ -56,15 +57,31 @@ gui.addColor(settings, "lightColor").name("燈光顏色").onChange(v => {
   light.color.set(v);
 });
 
+// ✅ 載入 EXR HDRI 環境光
+const pmremGenerator = new THREE.PMREMGenerator(renderer);
+pmremGenerator.compileEquirectangularShader();
+
+new EXRLoader()
+  .setPath("./hdr/") // HDRI 檔案資料夾
+  .load("studio_small_08_1k.exr", function (texture) {
+    const envMap = pmremGenerator.fromEquirectangular(texture).texture;
+
+    scene.environment = envMap;   // ✅ 模型反射用
+    scene.background = new THREE.Color(0x000000); // 背景保持黑色
+
+    texture.dispose();
+    pmremGenerator.dispose();
+  });
+
 // 載入 GLB 模型
 let model;
 const loader = new GLTFLoader();
-loader.load("./model/BL-360.glb", function (gltf) {
+loader.load("./model/model.glb", function (gltf) {
   model = gltf.scene;
   scene.add(model);
 });
 
-// ✅ 最後才放動畫函式
+// 動畫函式
 function animate() {
   requestAnimationFrame(animate);
 
@@ -76,5 +93,4 @@ function animate() {
   renderer.render(scene, camera);
 }
 
-// 啟動循環
 animate();
