@@ -43,7 +43,7 @@ scene.add(light);
 // ✅ GUI 面板設定
 const gui = new dat.GUI();
 const settings = {
-  autoRotate: true,
+  autoRotate: false,   //  false 關、true 開
   rotateSpeed: 0.01,
   ambientIntensity: 1,
   directionalIntensity: 1,
