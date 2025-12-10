@@ -11,6 +11,11 @@ scene.background = new THREE.Color(0x000000); // ✅ 黑色背景
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(1200, 600);
 document.body.appendChild(renderer.domElement);
+window.addEventListener("resize", () => {
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+});
 
 // 建立相機
 const camera = new THREE.PerspectiveCamera(
@@ -19,7 +24,7 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   100
 );
-camera.position.set(0, 1.5, 3);
+camera.position.set(0, 1.5, 2);
 
 // OrbitControls
 const controls = new OrbitControls(camera, renderer.domElement);
