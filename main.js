@@ -9,7 +9,7 @@ scene.background = new THREE.Color(0x000000); // ✅ 黑色背景
 
 // 建立 renderer
 const renderer = new THREE.WebGLRenderer({ antialias: true });
-renderer.setSize(500, 500);
+renderer.setSize(1200, 600);
 document.body.appendChild(renderer.domElement);
 
 // 建立相機
@@ -46,7 +46,7 @@ const settings = {
 };
 
 gui.add(settings, "autoRotate").name("自動旋轉");
-gui.add(settings, "rotateSpeed", 0.0005, 0.1).name("旋轉速度");
+gui.add(settings, "rotateSpeed", 0.0005, 0.05).name("旋轉速度");
 gui.add(settings, "ambientIntensity", 0, 2).name("環境光強度").onChange(v => {
   ambientLight.intensity = v;
 });
