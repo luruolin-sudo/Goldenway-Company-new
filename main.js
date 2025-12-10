@@ -57,6 +57,19 @@ gui.addColor(settings, "lightColor").name("燈光顏色").onChange(v => {
   light.color.set(v);
 });
 
+// ✅ 燈光方向控制
+const lightSettings = { x: 2, y: 3, z: 4 };
+
+gui.add(lightSettings, "x", -10, 10).name("燈光 X").onChange(v => {
+  light.position.x = v;
+});
+gui.add(lightSettings, "y", -10, 10).name("燈光 Y").onChange(v => {
+  light.position.y = v;
+});
+gui.add(lightSettings, "z", -10, 10).name("燈光 Z").onChange(v => {
+  light.position.z = v;
+});
+
 // ✅ 載入 EXR HDRI 環境光
 const pmremGenerator = new THREE.PMREMGenerator(renderer);
 pmremGenerator.compileEquirectangularShader();
