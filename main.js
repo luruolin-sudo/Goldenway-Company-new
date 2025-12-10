@@ -5,7 +5,7 @@ import { EXRLoader } from "./libs/EXRLoader.js"; // ✅ 載入 EXRLoader
 
 // 建立場景
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(#646464); // ✅ 黑色背景
+scene.background = new THREE.Color(gray); // ✅ 黑色背景
 
 // 建立 renderer
 const renderer = new THREE.WebGLRenderer({ antialias: true });
