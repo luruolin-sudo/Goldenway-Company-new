@@ -39,7 +39,7 @@ controls.maxDistance = 10;
 const ambientLight = new THREE.AmbientLight(0xffffff, 1);
 scene.add(ambientLight);
 
-const light = new THREE.DirectionalLight(0xffffff, 2); // ✅ 預設白光，強度 2
+const light = new THREE.DirectionalLight(0xffffff, 2); // 預設白光，強度 2
 light.position.set(2, 3, 4);
 scene.add(light);
 
@@ -49,7 +49,7 @@ const settings = {
   autoRotate: false,   // false 關、true 開
   rotateSpeed: 0.01,
   ambientIntensity: 1,
-  directionalIntensity: 2 // ✅ 同步初始值 2
+  directionalIntensity: 2 // 初始值同步 2
 };
 
 gui.add(settings, "autoRotate").name("自動旋轉");
@@ -61,18 +61,6 @@ gui.add(settings, "ambientIntensity", 0, 2).name("環境光強度").onChange(v =
 
 gui.add(settings, "directionalIntensity", 0, 5).name("方向光強度").onChange(v => {
   light.intensity = v;
-});
-
-gui.add(settings, "autoRotate").name("自動旋轉");
-gui.add(settings, "rotateSpeed", 0.0005, 0.05).name("旋轉速度");
-gui.add(settings, "ambientIntensity", 0, 2).name("環境光強度").onChange(v => {
-  ambientLight.intensity = v;
-});
-gui.add(settings, "directionalIntensity", 0, 2).name("方向光強度").onChange(v => {
-  light.intensity = v;
-});
-gui.addColor(settings, "lightColor").name("燈光顏色").onChange(v => {
-  light.color.set(v);
 });
 
 // ✅ 燈光方向控制
