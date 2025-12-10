@@ -49,7 +49,10 @@ const settings = {
   autoRotate: false,   // false 關、true 開
   rotateSpeed: 0.01,
   ambientIntensity: 1,
-  directionalIntensity: 2 // 初始值同步 2
+  directionalIntensity: 2,
+  lightX: 2,   // 初始位置 X
+  lightY: 3,   // 初始位置 Y
+  lightZ: 4    // 初始位置 Z
 };
 
 gui.add(settings, "autoRotate").name("自動旋轉");
@@ -63,16 +66,14 @@ gui.add(settings, "directionalIntensity", 0, 5).name("方向光強度").onChange
   light.intensity = v;
 });
 
-// ✅ 燈光方向控制
-const lightSettings = { x: 2, y: 3, z: 4 };
-
-gui.add(lightSettings, "x", -10, 10).name("燈光 X").onChange(v => {
+// ✅ 新增方向光位置控制
+gui.add(settings, "lightX", -10, 10).name("方向光 X").onChange(v => {
   light.position.x = v;
 });
-gui.add(lightSettings, "y", -10, 10).name("燈光 Y").onChange(v => {
+gui.add(settings, "lightY", -10, 10).name("方向光 Y").onChange(v => {
   light.position.y = v;
 });
-gui.add(lightSettings, "z", -10, 10).name("燈光 Z").onChange(v => {
+gui.add(settings, "lightZ", -10, 10).name("方向光 Z").onChange(v => {
   light.position.z = v;
 });
 
