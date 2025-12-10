@@ -19,13 +19,13 @@ window.addEventListener("resize", () => {
 
 // 建立相機
 const camera = new THREE.PerspectiveCamera(
-  60,   // FOV (視角角度)，越小物體越大，越大物體越小
+  45,   // FOV (視角角度)，越小物體越大，越大物體越小
   renderer.domElement.width / renderer.domElement.height, // 畫面寬高比
   0.1,  // 最近能看到的距離 (near clipping plane)
   100   // 最遠能看到的距離 (far clipping plane)
 );
 
-camera.position.set(2, 1.5, -1); // 相機在 (x=2, y=1.5, z=2) 的位置
+camera.position.set(2, 1.5, 0.2)); // 相機在 (x=2, y=1.5, z=2) 的位置
 camera.lookAt(0, 0, 0);         // 相機朝向場景中心 (通常是模型的位置)
 
 // OrbitControls
