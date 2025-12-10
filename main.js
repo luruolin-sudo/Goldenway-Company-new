@@ -76,7 +76,7 @@ new EXRLoader()
 // 載入 GLB 模型
 let model;
 const loader = new GLTFLoader();
-loader.load("./model/model.glb", function (gltf) {
+loader.load("./model/BL-360.glb", function (gltf) {
   model = gltf.scene;
   scene.add(model);
 });
