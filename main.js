@@ -63,7 +63,7 @@ pmremGenerator.compileEquirectangularShader();
 
 new EXRLoader()
   .setPath("./hdr/") // HDRI 檔案資料夾
-  .load("studio_small_08_1k.exr", function (texture) {
+  .load("lebombo.exr", function (texture) {
     const envMap = pmremGenerator.fromEquirectangular(texture).texture;
 
     scene.environment = envMap;   // ✅ 模型反射用
