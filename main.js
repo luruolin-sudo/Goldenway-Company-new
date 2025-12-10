@@ -19,7 +19,7 @@ window.addEventListener("resize", () => {
 
 // 建立相機
 const camera = new THREE.PerspectiveCamera(
-  45,   // FOV (視角角度)，越小物體越大，越大物體越小
+  60,   // FOV (視角角度)，越小物體越大，越大物體越小
   renderer.domElement.width / renderer.domElement.height, // 畫面寬高比
   0.1,  // 最近能看到的距離 (near clipping plane)
   100   // 最遠能看到的距離 (far clipping plane)
