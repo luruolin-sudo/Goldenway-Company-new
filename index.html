@@ -4,20 +4,21 @@
   <meta charset="UTF-8" />
   <title>燈具 360° 旋轉展示</title>
   <style>
-    body {
-      margin: 0;
-      background: #f5f5f5;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    canvas {
-      width: 500px;
-      height: 500px;
-      background: #ffffff;
-      border-radius: 16px;
-    }
+body {
+  margin: 0;                        /* 移除瀏覽器預設邊距 */
+  background: #f5f5f5;              /* 整個網頁背景顏色（灰白色） */
+  display: flex;                    /* 使用 Flexbox 排版 */
+  justify-content: center;          /* 水平置中 */
+  align-items: center;              /* 垂直置中 */
+  height: 100vh;                    /* 高度佔滿整個視窗 */
+}
+
+canvas {
+  width: 500px;                     /* Canvas 顯示寬度 */
+  height: 500px;                    /* Canvas 顯示高度 */
+  background: #ffffff;              /* Canvas 背景顏色（白色） */
+  border-radius: 16px;              /* 圓角邊框 */
+}
   </style>
 </head>
 <body>
@@ -25,6 +26,7 @@
   <script type="module" src="./main.js"></script>
 </body>
 </html>
+
 
 
 
