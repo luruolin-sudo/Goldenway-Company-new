@@ -5,7 +5,7 @@ import { EXRLoader } from "./libs/EXRLoader.js"; // ✅ 載入 EXRLoader
 
 // 建立場景
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0.2, 0.2, 0.2); // ✅ 黑色背景
+scene.background = new THREE.Color(0.15, 0.15, 0.15); // ✅ 黑色背景
 
 // 建立 renderer
 const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -25,7 +25,7 @@ const camera = new THREE.PerspectiveCamera(
   100   // 最遠能看到的距離 (far clipping plane)
 );
 
-camera.position.set(2, 1.5, 0.2); // 相機在 (x=2, y=1.5, z=2) 的位置
+camera.position.set(1, 1, 0.2); // 相機在 (x=2, y=1.5, z=2) 的位置
 camera.lookAt(0, 0, 0);         // 相機朝向場景中心 (通常是模型的位置)
 
 // OrbitControls
